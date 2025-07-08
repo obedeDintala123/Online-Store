@@ -47,7 +47,7 @@ export default function Home() {
           <div className="w-full">
             <SidebarInset>
               <div className="flex flex-1 flex-col gap-4 p-4">
-                <div className="columns-2 sm:columns-2 md:columns-3 gap-2 space-y-2">
+                <div className="columns-2 sm:columns-2 md:columns-3 gap-2 space-x-2 space-y-4">
                   {
                     products.length > 0 ? (
                       products.map((item, index) => (
