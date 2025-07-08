@@ -16,6 +16,9 @@ import Link from "next/link";
 export default function ClientLayout({ children }: { children: React.ReactNode }) {
     const isMobile = useIsMobile();
 
+    // Evita o flash de layout errado antes da detecção
+    if (isMobile === undefined) return null;
+
     return (
         <>
             {!isMobile ? (
@@ -30,10 +33,9 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
                 </div>
             ) : (
                 <div className="flex flex-col min-h-screen">
-                    <main className="min-h-screen flex justify-center items-center pb-16">
+                    <main className="flex justify-center items-center flex-1 pb-16">
                         {children}
                     </main>
-
                     <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t shadow-md">
                         <ul className="flex justify-around items-center py-2 text-sm">
                             <NavItem href="/" label="Home" icon={<Home size={20} />} />
@@ -47,6 +49,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
         </>
     );
 }
+
 
 function NavItem({ href, label, icon }: { href: string; label: string; icon: React.ReactNode }) {
     return (
