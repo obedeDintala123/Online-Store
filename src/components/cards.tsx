@@ -31,6 +31,8 @@ export const Card = ({
                 width={500}
                 height={500}
                 className={cn("w-full h-auto object-cover rounded-md", className)}
+                priority
+                onLoad={() => console.log("Imagem carregndo")}
             />
 
             {/* Overlay */}
