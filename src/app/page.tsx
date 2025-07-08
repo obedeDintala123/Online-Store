@@ -47,29 +47,24 @@ export default function Home() {
           <div className="w-full">
             <SidebarInset>
               <div className="flex flex-1 flex-col gap-4 p-4">
-                {products.length > 0 ? (
-                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 gap-2">
-                    {
-                      products.length > 0 ? (
-                        products.map((item, index) => (
-                          <div key={index} className="flex justify-center items-center">
-                            <Card
-                              src={item.imageUrl}
-                              alt={item.description ?? item.name}
-                              name={item.name}
-                              price={item.price}
-                            />
-                          </div>
-                        ))
-                      ) : (
-                        <span>No products found</span>
-                      )
-                    }
-                  </div>
-
-                ) : (
-                  <span className="text-gray-500">No products found</span>
-                )}
+                <div className="columns-2 sm:columns-2 md:columns-3 gap-2 space-y-2">
+                  {
+                    products.length > 0 ? (
+                      products.map((item, index) => (
+                        <div key={index} className="flex justify-center items-start">
+                          <Card
+                            src={item.imageUrl}
+                            alt={item.description ?? item.name}
+                            name={item.name}
+                            price={item.price}
+                          />
+                        </div>
+                      ))
+                    ) : (
+                      <span>No products found</span>
+                    )
+                  }
+                </div>
               </div >
             </SidebarInset >
           </div >

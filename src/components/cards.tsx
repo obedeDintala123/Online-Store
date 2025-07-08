@@ -24,13 +24,13 @@ export const Card = ({
     const isMobile = useIsMobile();
 
     return (
-        <div className="relative group overflow-hidden rounded-lg shadow-md">
+        <div className="relative group m-0 p-0 break-inside-avoid overflow-hidden rounded-md shadow">
             <Image
                 src={src}
                 alt={alt}
                 width={500}
                 height={500}
-                className={cn("block mx-auto object-cover w-full h-auto transition duration-300", className)}
+                className={cn("w-full h-auto object-cover rounded-md", className)}
             />
 
             {/* Overlay */}
@@ -45,11 +45,11 @@ export const Card = ({
 
                     {/* Ícones no canto superior direito */}
                     <div className="flex gap-2 sm:gap-4 md:gap-6">
-                        <button className="p-2 hover:bg-black/40 rounded-md">
+                        <button className="p-2 hover:bg-black/40 rounded-md cursor-pointer">
                             <Heart size={isMobile ? 16 : 24} />
 
                         </button>
-                        <button className="p-2 hover:bg-black/40 rounded-md">
+                        <button className="p-2 hover:bg-black/40 rounded-md cursor-pointer">
                             <ShoppingCart size={isMobile ? 16 : 24} />
                         </button>
                     </div>
