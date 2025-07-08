@@ -37,7 +37,6 @@ export default function Home() {
 
   return (
     <>
-
       {
         loading ? (
           <div className="flex justify-center items-center w-full">

@@ -1,17 +1,13 @@
-import { SidebarProvider, SidebarInset, } from "@/components/ui/sidebar"
-import { SiteHeader } from "@/components/site-header"
-import { AppSidebar } from "@/components/app-sidebar"
-export const iframeHeight = "800px"
-export const description = "A sidebar with a header and a search form."
-
-import type { Metadata } from "next";
+// app/layout.tsx
 import { Montserrat } from "next/font/google";
+import type { Metadata } from "next";
+import ClientLayout from "./client-layout";
 import "./globals.css";
 
 const montserrat = Montserrat({
   display: "swap",
   subsets: ["latin"]
-})
+});
 
 export const metadata: Metadata = {
   title: {
@@ -56,8 +52,7 @@ export const metadata: Metadata = {
     images: ["/favicon.svg"],
     creator: "@your_twitter_handle",
   },
-}
-
+};
 
 export default function RootLayout({
   children,
@@ -66,19 +61,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${montserrat.className} antialiased`}
-      >
-        <div className="[--header-height:calc(--spacing(14))]">
-          <SidebarProvider className="flex flex-col">
-            <SiteHeader />
-            <div className="flex flex-1">
-              <AppSidebar />
-
-              {children}
-            </div>
-          </SidebarProvider>
-        </div>
+      <body className={`${montserrat.className} antialiased`}>
+        <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
   );
