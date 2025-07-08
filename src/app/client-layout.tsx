@@ -38,7 +38,6 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
                         <ul className="flex justify-around items-center py-2 text-sm">
                             <NavItem href="/" label="Home" icon={<Home size={20} />} />
                             <NavItem href="/search" label="Search" icon={<Search size={20} />} />
-                            <NavItem href="/categories" label="Category" icon={<Layers size={20} />} />
                             <NavItem href="/cart" label="Cart" icon={<ShoppingCart size={20} />} />
                             <NavItem href="/profile" label="Profile" icon={<User size={20} />} />
                         </ul>
