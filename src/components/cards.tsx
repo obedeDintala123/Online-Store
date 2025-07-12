@@ -36,7 +36,18 @@ export const Card = ({
                 onClick={() => console.log("Clicou em mim!")}
             />
 
-            <div className="flex justify-end p-2 md:hidden">
+            <div className="flex justify-between py-2 md:hidden">
+
+                <div className="flex gap-1 items-center">
+                    <button className="p-2 hover:bg-black/40 rounded-md cursor-pointer">
+                        <Heart size={isMobile ? 16 : 24} />
+
+                    </button>
+                    <button className="p-2 hover:bg-black/40 rounded-md cursor-pointer">
+                        <ShoppingCart size={isMobile ? 16 : 24} />
+                    </button>
+                </div>
+
                 <button>
                     <Ellipsis size={16} />
                 </button>
