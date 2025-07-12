@@ -24,34 +24,22 @@ export const Card = ({
     const isMobile = useIsMobile();
 
     return (
-        <div className="relative group m-0 p-0 break-inside-avoid overflow-hidden rounded-md shadow border-2 border-[#d9d9d9]">
-
-            <div className="flex justify-between p-4 md:hidden">
-                <span className="text-sm">{name}</span>
-                <Ellipsis size={24} />
-            </div>
+        <div className="relative group m-0 p-0 break-inside-avoid overflow-hidden md:shadow">
 
             <Image
                 src={src}
                 alt={alt}
                 width={500}
                 height={500}
-                className={cn("w-full h-auto object-cover rounded-none md:rounded-md", className)}
+                className={cn("w-full h-auto object-cover rounded-md", className)}
                 priority
                 onClick={() => console.log("Clicou em mim!")}
             />
 
-            <div className="flex justify-between p-4 md:hidden">
-                <span className=" text-lg">{price}$</span>
-
-                <div className="flex gap-2">
-                    <button className="p-2 rounded-md cursor-pointer">
-                        <Heart size={isMobile ? 16 : 24} />
-                    </button>
-                    <button className="p-2 rounded-md cursor-pointer">
-                        <ShoppingCart size={isMobile ? 16 : 24} />
-                    </button>
-                </div>
+            <div className="flex justify-end p-2 md:hidden">
+                <button>
+                    <Ellipsis size={16} />
+                </button>
             </div>
 
             {/* Overlay */}
