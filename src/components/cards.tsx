@@ -2,7 +2,7 @@
 
 import { cn } from "@/lib/utils"
 import Image from "next/image"
-import { Heart, ShoppingCart } from "lucide-react"
+import { Heart, ShoppingCart, Ellipsis } from "lucide-react"
 import { useIsMobile } from "@/hooks/use-mobile"
 
 interface CardProps {
@@ -24,19 +24,38 @@ export const Card = ({
     const isMobile = useIsMobile();
 
     return (
-        <div className="relative group m-0 p-0 break-inside-avoid overflow-hidden rounded-md shadow">
+        <div className="relative group m-0 p-0 break-inside-avoid overflow-hidden rounded-md shadow border-2 border-[#d9d9d9]">
+
+            <div className="flex justify-between p-4 md:hidden">
+                <span className="text-sm">{name}</span>
+                <Ellipsis size={24} />
+            </div>
+
             <Image
                 src={src}
                 alt={alt}
                 width={500}
                 height={500}
-                className={cn("w-full h-auto object-cover rounded-md", className)}
+                className={cn("w-full h-auto object-cover rounded-none md:rounded-md", className)}
                 priority
                 onClick={() => console.log("Clicou em mim!")}
             />
 
+            <div className="flex justify-between p-4 md:hidden">
+                <span className=" text-lg">{price}$</span>
+
+                <div className="flex gap-2">
+                    <button className="p-2 rounded-md cursor-pointer">
+                        <Heart size={isMobile ? 16 : 24} />
+                    </button>
+                    <button className="p-2 rounded-md cursor-pointer">
+                        <ShoppingCart size={isMobile ? 16 : 24} />
+                    </button>
+                </div>
+            </div>
+
             {/* Overlay */}
-            <div className="flex absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition duration-300 text-white p-3 md:p-6 flex-col justify-between cursor-pointer">
+            <div className="hidden md:flex absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition duration-300 text-white p-3 md:p-6 flex-col justify-between cursor-pointer">
 
                 {/* Top */}
                 <div className="flex items-center justify-between">
