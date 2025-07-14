@@ -4,16 +4,21 @@ import { cn } from "@/lib/utils"
 import Image from "next/image"
 import { Heart, ShoppingCart, Ellipsis } from "lucide-react"
 import { useIsMobile } from "@/hooks/use-mobile"
+import { useRouter } from "next/navigation"
 
 interface CardProps {
     name: string
     src: string
     alt: string
+    slug?: string;
     price?: string
     className?: string
+    productId: number;
 }
 
 export const Card = ({
+    productId,
+    slug,
     name,
     src,
     alt,
@@ -22,39 +27,50 @@ export const Card = ({
 }: CardProps) => {
 
     const isMobile = useIsMobile();
+    const router = useRouter();
+
+
+    const openProductView = (id: number) => {
+        console.log("Your id is: ", id);
+        router.push(`/products/${slug}-${id}`);
+    }
 
     return (
-        <div className="relative group m-0 p-0 break-inside-avoid overflow-hidden md:shadow">
+        <div className={cn(
+            "relative group m-0 p-0 break-inside-avoid overflow-hidden md:shadow",
+            className
+        )}>
 
             <Image
                 src={src}
                 alt={alt}
                 width={500}
                 height={500}
-                className={cn("w-full h-auto object-cover rounded-md", className)}
+                className="w-full h-auto object-cover rounded-md"
                 priority
-                onClick={() => console.log("Clicou em mim!")}
+                onClick={() => openProductView(productId)}
+              
             />
 
-            <div className="flex justify-between py-2 md:hidden">
+            <div className="flex justify-between p-1 md:hidden">
 
                 <div className="flex gap-1 items-center">
-                    <button className="p-2 hover:bg-black/40 rounded-md cursor-pointer">
+                    <button type="button" className="p-2 hover:bg-black/40 rounded-md cursor-pointer">
                         <Heart size={isMobile ? 16 : 24} />
 
                     </button>
-                    <button className="p-2 hover:bg-black/40 rounded-md cursor-pointer">
+                    <button type="button" className="p-2 hover:bg-black/40 rounded-md cursor-pointer">
                         <ShoppingCart size={isMobile ? 16 : 24} />
                     </button>
                 </div>
 
-                <button>
+                <button type="button">
                     <Ellipsis size={16} />
                 </button>
             </div>
 
             {/* Overlay */}
-            <div className="hidden md:flex absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition duration-300 text-white p-3 md:p-6 flex-col justify-between cursor-pointer">
+            <div className="hidden md:flex absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition duration-300 text-white p-3 md:p-6 flex-col justify-between cursor-pointer" onClick={() => openProductView(productId)}>
 
                 {/* Top */}
                 <div className="flex items-center justify-between">
@@ -65,11 +81,19 @@ export const Card = ({
 
                     {/* Ícones no canto superior direito */}
                     <div className="flex gap-2 sm:gap-4 md:gap-6">
-                        <button className="p-2 hover:bg-black/40 rounded-md cursor-pointer">
+                        <button
+                            type="button"
+                            onClick={(e) => e.stopPropagation()}
+                            className="p-2 hover:bg-black/40 rounded-md cursor-pointer"
+                        >
                             <Heart size={isMobile ? 16 : 24} />
 
                         </button>
-                        <button className="p-2 hover:bg-black/40 rounded-md cursor-pointer">
+                        <button
+                            type="button"
+                            onClick={(e) => e.stopPropagation()}
+                            className="p-2 hover:bg-black/40 rounded-md cursor-pointer"
+                        >
                             <ShoppingCart size={isMobile ? 16 : 24} />
                         </button>
                     </div>
