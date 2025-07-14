@@ -1,5 +1,6 @@
 "use client";
 
+import { type Metadata } from "next";
 import { useEffect, useState } from "react";
 import { apiRequest } from "@/lib/api";
 import { Loader } from "@/components/loader";
@@ -18,7 +19,13 @@ interface ProductDetailsProps {
   quantity: number;
 }
 
-export default function ProductDetailPage({ params }: { params: { productId: string } }) {
+interface ProductPageProps {
+  params: {
+    productId: string;
+  };
+}
+
+export default function ProductDetailPage({ params }: ProductPageProps) {
   const [product, setProduct] = useState<ProductDetailsProps | null>(null);
   const [loading, setLoading] = useState(true);
   const [imageLoading, setImageLoading] = useState(true); // <- controla o carregamento da imagem
@@ -65,9 +72,8 @@ export default function ProductDetailPage({ params }: { params: { productId: str
             alt={product.name}
             width={600}
             height={600}
-            className={`w-full h-auto object-cover rounded-lg shadow-lg transition-opacity duration-300 ${
-              imageLoading ? "opacity-0" : "opacity-100"
-            }`}
+            className={`w-full h-auto object-cover rounded-lg shadow-lg transition-opacity duration-300 ${imageLoading ? "opacity-0" : "opacity-100"
+              }`}
             onLoad={() => setImageLoading(false)}
             priority
           />
