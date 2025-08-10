@@ -21,5 +21,5 @@ export async function GET(
     return NextResponse.json({ error: "Produto não encontrado" }, { status: 404 });
   }
 
-  return NextResponse.json(product);
+   return NextResponse.json(product);
 }
