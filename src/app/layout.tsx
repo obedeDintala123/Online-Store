@@ -10,6 +10,7 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://online-store-sbw8.vercel.app"),
   title: {
     default: "Online Store",
     template: "%s | Online Store",
@@ -28,7 +29,6 @@ export const metadata: Metadata = {
     ],
   },
   keywords: ["online store", "ecommerce", "shop", "buy online", "fashion", "electronics", "books"],
-  viewport: "width=device-width, initial-scale=1",
   openGraph: {
     title: "Online Store",
     description: "Shop a wide range of products with the best deals and fast delivery.",
@@ -52,6 +52,11 @@ export const metadata: Metadata = {
     images: ["/favicon.svg"],
     creator: "@your_twitter_handle",
   },
+};
+
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
 };
 
 export default function RootLayout({

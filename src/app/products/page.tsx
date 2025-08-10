@@ -23,7 +23,7 @@ export default function AllProductsPage() {
         const fetchAllProducts = async () => {
             try {
                 setLoading(true);
-                const data = await apiRequest("/products", "GET");
+                const data = await apiRequest("products", "GET");
                 setProducts(data);
             } catch (err) {
                 console.error("Falha ao buscar produtos:", err);
@@ -34,7 +34,7 @@ export default function AllProductsPage() {
         };
 
         fetchAllProducts();
-    }, []); 
+    }, []);
 
     if (loading) {
         return (
@@ -42,7 +42,10 @@ export default function AllProductsPage() {
                 <div className="columns-2 sm:columns-2 md:columns-3 lg:columns-3 gap-4 space-y-4">
                     {Array.from({ length: 8 }).map((_, index) => {
                         const heights = ['h-56', 'h-64', 'h-80'];
-                        return <Skeleton key={index} className={`w-full ${heights[index % 3]}`} />
+                        return <Skeleton
+                            key={index}
+                            className={`w-full ${heights[index % 3]} animate-pulse`}
+                        />
                     })}
                 </div>
             </div>
@@ -58,15 +61,15 @@ export default function AllProductsPage() {
             {products.length > 0 ? (
                 <div className="columns-2 sm:columns-2 md:columns-3 lg:columns-3 gap-4 space-y-4">
                     {products.map((item) => (
-                        <Card 
-                        key={item.id} 
-                        src={item.imageUrl} 
-                        alt={item.name} 
-                        name={item.name} 
-                        price={item.price} 
-                        productId={item.id} 
-                        slug={item.slug}
-                        className="mb-4" />
+                        <Card
+                            key={item.id}
+                            src={item.imageUrl}
+                            alt={item.name}
+                            name={item.name}
+                            price={item.price}
+                            productId={item.id}
+                            slug={item.slug}
+                            className="mb-4" />
                     ))}
                 </div>
             ) : (

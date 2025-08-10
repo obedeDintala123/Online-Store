@@ -31,7 +31,6 @@ export const Card = ({
 
 
     const openProductView = (id: number) => {
-        console.log("Your id is: ", id);
         router.push(`/products/${slug}-${id}`);
     }
 
@@ -72,14 +71,13 @@ export const Card = ({
             {/* Overlay */}
             <div className="hidden md:flex absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition duration-300 text-white p-3 md:p-6 flex-col justify-between cursor-pointer" onClick={() => openProductView(productId)}>
 
-                {/* Top */}
+       
                 <div className="flex items-center justify-between">
-                    {/* Preço no canto superior esquerdo */}
+
                     {price && (
                         <span className="text-base md:text-xl font-bold rounded">{price}$</span>
                     )}
 
-                    {/* Ícones no canto superior direito */}
                     <div className="flex gap-2 sm:gap-4 md:gap-6">
                         <button
                             type="button"
