@@ -2,6 +2,7 @@
 
 import { useIsMobile } from "@/hooks/use-mobile";
 import { SidebarProvider } from "@/components/ui/sidebar";
+import Image from "next/image";
 import { SiteHeader } from "@/components/site-header";
 import { AppSidebar } from "@/components/app-sidebar";
 import {
@@ -9,11 +10,17 @@ import {
     Search,
     ShoppingCart,
     User,
-    Layers
+    Layers,
+    Heart
 } from "lucide-react";
 import Link from "next/link";
+import { SearchForm } from "@/components/search-form";
+import { useProductStore } from "@/hooks/use-product-store";
+
 
 export default function ClientLayout({ children }: { children: React.ReactNode }) {
+    const search = useProductStore((s) => s.search);
+    const setSearch = useProductStore((s) => s.setSearch);
     const isMobile = useIsMobile();
 
     // Evita o flash de layout errado antes da detecção
@@ -32,14 +39,24 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
                     </SidebarProvider>
                 </div>
             ) : (
-                <div className="flex flex-col min-h-screen">
-                    <main className="flex justify-center items-center flex-1 pb-16">
+                <div className="flex flex-col min-h-[100dvh]">
+                    <main className="flex-1 pb-16">
+                        <header className="p-2 flex flex-col gap-3">
+                            <div className="flex items-center justify-between">
+                                <Image src={"/logo-onlineStore (2).svg"} width={64} height={64} alt="logo" className="w-40" />
+
+                                <div className="bg-gray-300 w-10 h-10 rounded-full"></div>
+                            </div>
+                            <div>
+                                <SearchForm search={search} setSearch={setSearch} />
+                            </div>
+                        </header>
                         {children}
                     </main>
                     <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t shadow-md">
                         <ul className="flex justify-around items-center py-2 text-sm">
                             <NavItem href="/" label="Home" icon={<Home size={20} />} />
-                            <NavItem href="/search" label="Search" icon={<Search size={20} />} />
+                            <NavItem href="/favorites" label="Favorites" icon={<Heart size={20} />} />
                             <NavItem href="/cart" label="Cart" icon={<ShoppingCart size={20} />} />
                             <NavItem href="/profile" label="Profile" icon={<User size={20} />} />
                         </ul>
