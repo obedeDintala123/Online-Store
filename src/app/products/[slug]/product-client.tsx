@@ -75,7 +75,7 @@ export default function ProductClient({ productId }: { productId: string }) {
             </Button>
 
             <div className="w-full flex items-center justify-center">
-                <div className="grid grid-cols-1 sm:grid-cols-[40%_60%] max-w-4xl w-full rounded-lg bg-white shadow-lg overflow-hidden">
+                <div className="grid grid-cols-1 md:grid-cols-[40%_60%] max-w-4xl w-full rounded-lg bg-transparent md:bg-white shadow-none md:shadow-lg overflow-hidden">
 
                     <div className="relative aspect-[4/5] w-full">
                         {imageLoading && (
@@ -94,12 +94,12 @@ export default function ProductClient({ productId }: { productId: string }) {
                     </div>
 
                     {/* Lado direito - Infos */}
-                    <div className="flex flex-col justify-between p-8">
+                    <div className="flex flex-col justify-between p-3 md:p-8">
 
                         {/* Nome e descrição */}
                         <div className="flex flex-col gap-3">
-                            <h1 className="text-4xl font-bold">{product.name}</h1>
-                            <p className="text-gray-500">{product.description}</p>
+                            <h1 className="text-2xl md:text-4xl font-semibold">{product.name}</h1>
+                            <p className="text-sm md:text-base text-gray-500">{product.description}</p>
                         </div>
 
                         {/* Tamanhos */}
@@ -130,7 +130,7 @@ export default function ProductClient({ productId }: { productId: string }) {
                         </div>
 
                         <div className="flex items-center justify-between mt-8">
-                            <span className="text-2xl font-bold text-online-primary">{product.price}$</span>
+                            <span className="text-xl md:text-2xl font-bold text-online-primary">{product.price}$</span>
                             <div className="flex gap-3">
                                 <Button className="bg-online-primary text-white flex items-center gap-2 px-5 hover:bg-online-primary/90">
                                     <ShoppingCart size={18} /> Add to cart
