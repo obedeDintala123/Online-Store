@@ -16,9 +16,11 @@ import {
 import Link from "next/link";
 import { SearchForm } from "@/components/search-form";
 import { useProductStore } from "@/hooks/use-product-store";
+import { usePathname } from "next/navigation";
 
 
 export default function ClientLayout({ children }: { children: React.ReactNode }) {
+    const path = usePathname();
     const search = useProductStore((s) => s.search);
     const setSearch = useProductStore((s) => s.setSearch);
     const isMobile = useIsMobile();
@@ -41,16 +43,20 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
             ) : (
                 <div className="flex flex-col min-h-[100dvh]">
                     <main className="flex-1 pb-16">
-                        <header className="p-2 flex flex-col gap-3">
-                            <div className="flex items-center justify-between">
-                                <Image src={"/logo-onlineStore (2).svg"} width={64} height={64} alt="logo" className="w-40" />
+                        {
+                            path === "/" ? (
+                                <header className="p-2 flex flex-col gap-3">
+                                    <div className="flex items-center justify-between">
+                                        <Image src={"/logo-onlineStore (2).svg"} width={64} height={64} alt="logo" className="w-40" />
 
-                                <div className="bg-gray-300 w-10 h-10 rounded-full"></div>
-                            </div>
-                            <div>
-                                <SearchForm search={search} setSearch={setSearch} />
-                            </div>
-                        </header>
+                                        <div className="bg-gray-300 w-10 h-10 rounded-full"></div>
+                                    </div>
+                                    <div>
+                                        <SearchForm search={search} setSearch={setSearch} />
+                                    </div>
+                                </header>
+                            ): null
+                       }
                         {children}
                     </main>
                     <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t shadow-md">
