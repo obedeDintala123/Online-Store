@@ -56,7 +56,6 @@ export const Card = ({
                 <div className="flex gap-1 items-center">
                     <button type="button" className="p-2 hover:bg-black/40 rounded-md cursor-pointer">
                         <Heart size={isMobile ? 16 : 24} />
-
                     </button>
                     <button type="button" className="p-2 hover:bg-black/40 rounded-md cursor-pointer">
                         <ShoppingCart size={isMobile ? 16 : 24} />

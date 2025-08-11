@@ -14,9 +14,12 @@ import {
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { useSidebar } from "@/components/ui/sidebar"
+import { useProductStore } from "@/hooks/use-product-store"
 
 export function SiteHeader() {
-    const { toggleSidebar } = useSidebar()
+    const { toggleSidebar } = useSidebar();
+    const search = useProductStore((s) => s.search);
+    const setSearch = useProductStore((s) => s.setSearch);
 
     return (
         <header className="bg-background sticky top-0 z-50 flex w-full items-center border-b">
@@ -32,7 +35,7 @@ export function SiteHeader() {
 
                 <Separator orientation="vertical" className="mr-2 h-4" />
 
-                <SearchForm className="w-full sm:ml-auto sm:w-1/2" />
+                <SearchForm className="w-full sm:ml-auto sm:w-1/2" search={search} setSearch={setSearch} />
             </div>
         </header>
     )

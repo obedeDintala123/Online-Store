@@ -64,8 +64,7 @@ export default function ProductClient({ productId }: { productId: string }) {
     }
 
     return (
-        <section className="container mx-auto p-4 md:p-8 space-y-4">
-
+        <section className="container mx-auto p-2 md:p-8 space-y-4">
             <Button
                 type="button"
                 className="flex items-center gap-3 text-black cursor-pointer"
@@ -76,71 +75,70 @@ export default function ProductClient({ productId }: { productId: string }) {
             </Button>
 
             <div className="w-full flex items-center justify-center">
-                <div className="grid grid-cols-1 sm:grid-cols-[40%_60%] max-w-4xl w-full rounded-lg bg-white">
-                    {/* Lado esquerdo - Imagem */}
-                    <div>
+                <div className="grid grid-cols-1 sm:grid-cols-[40%_60%] max-w-4xl w-full rounded-lg bg-white shadow-lg overflow-hidden">
+
+                    <div className="relative aspect-[4/5] w-full">
                         {imageLoading && (
-                            <Skeleton className="w-full h-[500px] rounded-r-md animate-pulse bg-gray-300" />
+                            <Skeleton className="absolute inset-0 w-full h-full animate-pulse bg-gray-300" />
                         )}
-                        <Image
-                            src={product.imageUrl}
-                            alt={product.name}
-                            width={400}
-                            height={400}
-                            className={`w-full h-[500px] transition-opacity rounded-l-md duration-300 ${imageLoading ? "opacity-0" : "opacity-100"}`}
-                            onLoad={() => setImageLoading(false)}
-                            priority
-                        />
+                        <div className="relative w-full h-[500px]">
+                            <Image
+                                src={product.imageUrl}
+                                alt={product.name}
+                                fill
+                                className="object-cover"
+                                onLoad={() => setImageLoading(false)}
+                                priority
+                            />
+                        </div>
                     </div>
 
+                    {/* Lado direito - Infos */}
+                    <div className="flex flex-col justify-between p-8">
 
-                    <div className="flex flex-col justify-between p-6 border rounded-r-md">
-
+                        {/* Nome e descrição */}
                         <div className="flex flex-col gap-3">
-                            <span className="md:text-3xl font-semibold">{product.name}</span>
-                            <p className="text-sm text-gray-400">{product.description}</p>
+                            <h1 className="text-4xl font-bold">{product.name}</h1>
+                            <p className="text-gray-500">{product.description}</p>
                         </div>
 
-
-                        <div className="flex flex-col gap-2 mt-4">
-                            <span className="md:text-base font-semibold">Size</span>
-                            <div className="space-x-5">
+                        {/* Tamanhos */}
+                        <div className="mt-6">
+                            <span className="font-semibold block mb-2">Size</span>
+                            <div className="flex gap-3">
                                 {size.map((item, index) => (
-                                    <Button
-                                        className="text-online-secundary w-12 h-12 border rounded-full border-online-secundary cursor-pointer"
-                                        type="button"
+                                    <button
                                         key={index}
+                                        className="w-12 h-12 border border-gray-400 rounded-full flex items-center justify-center hover:border-black hover:scale-105 transition"
                                     >
                                         {item.label}
-                                    </Button>
+                                    </button>
                                 ))}
                             </div>
                         </div>
 
-                        {/* cores */}
-                        <div className="flex flex-col gap-2 mt-4">
-                            <span className="md:text-base font-semibold">Colour</span>
-                            <div className="flex items-center space-x-5">
+                        <div className="mt-6">
+                            <span className="font-semibold block mb-2">Colour</span>
+                            <div className="flex gap-4">
                                 {colour.map((color, index) => (
-                                    <Button type="button" key={index} className={`${color} w-10 h-10 rounded-full cursor-pointer`}></Button>
+                                    <button
+                                        key={index}
+                                        className={`${color} w-10 h-10 rounded-full border border-gray-300 hover:scale-110 transition`}
+                                    />
                                 ))}
                             </div>
                         </div>
 
-                        {/* preço */}
-                        <div className="flex items-center justify-between mt-4">
-                            <span className="md:text-base font-semibold">Price</span>
-                            <span className="md:text-xl">{product.price}$</span>
-                        </div>
-
-                        {/* botões */}
-                        <div className="w-full flex items-center space-x-2 mt-4">
-                            <Button className="w-[90%] bg-online-primary text-white cursor-pointer">
-                                Add to cart
-                            </Button>
-                            <Button size="lg" variant="outline" className="cursor-pointer">
-                                <Heart />
-                            </Button>
+                        <div className="flex items-center justify-between mt-8">
+                            <span className="text-2xl font-bold text-online-primary">{product.price}$</span>
+                            <div className="flex gap-3">
+                                <Button className="bg-online-primary text-white flex items-center gap-2 px-5 hover:bg-online-primary/90">
+                                    <ShoppingCart size={18} /> Add to cart
+                                </Button>
+                                <Button size="icon" variant="outline" className="hover:text-red-500">
+                                    <Heart />
+                                </Button>
+                            </div>
                         </div>
                     </div>
                 </div>

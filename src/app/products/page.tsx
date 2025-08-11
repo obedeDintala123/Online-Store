@@ -5,8 +5,9 @@ import { apiRequest } from "@/lib/api";
 import { Card } from "@/components/cards";
 import { Loader } from "@/components/loader";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useProductStore } from "@/hooks/use-product-store";
 
-interface Product {
+export type Product = {
     id: number;
     name: string;
     imageUrl: string;
@@ -15,28 +16,16 @@ interface Product {
 }
 
 export default function AllProductsPage() {
-    const [products, setProducts] = useState<Product[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
+    const products = useProductStore((s) => s.products);
+    const isLoading = useProductStore((s) => s.isLoading);
+    const error = useProductStore((s) => s.error);
+    const fetchProducts = useProductStore((s) => s.fetchProducts);
 
     useEffect(() => {
-        const fetchAllProducts = async () => {
-            try {
-                setLoading(true);
-                const data = await apiRequest("products", "GET");
-                setProducts(data);
-            } catch (err) {
-                console.error("Falha ao buscar produtos:", err);
-                setError("Não foi possível carregar os produtos. Tente novamente.");
-            } finally {
-                setLoading(false);
-            }
-        };
+        fetchProducts();
+    }, [fetchProducts]);
 
-        fetchAllProducts();
-    }, []);
-
-    if (loading) {
+    if (isLoading) {
         return (
             <div className="flex flex-1 flex-col gap-4 p-2 md:p-4">
                 <div className="columns-2 sm:columns-2 md:columns-3 lg:columns-3 gap-4 space-y-4">
