@@ -7,7 +7,7 @@ import gsap from "gsap";
 
 interface SearchFormProps extends React.ComponentPropsWithoutRef<"form"> {
     search: string;
-    setSearch: React.Dispatch<React.SetStateAction<string>>;
+    setSearch: (value: string) => void;
 }
 
 export const SearchForm = ({ search, setSearch, className, ...props }: SearchFormProps) => {
