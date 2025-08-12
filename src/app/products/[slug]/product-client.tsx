@@ -122,6 +122,7 @@ export default function ProductClient({ productId }: { productId: string }) {
                             <div className="flex gap-4">
                                 {colour.map((color, index) => (
                                     <button
+                                        title="colour"
                                         key={index}
                                         className={`${color} w-10 h-10 rounded-full border border-gray-300 hover:scale-110 transition`}
                                     />

@@ -1,5 +1,11 @@
 "use client";
 
+import { useState } from "react";
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/components/ui/popover";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import Image from "next/image";
@@ -7,17 +13,15 @@ import { SiteHeader } from "@/components/site-header";
 import { AppSidebar } from "@/components/app-sidebar";
 import {
     Home,
-    Search,
     ShoppingCart,
     User,
-    Layers,
-    Heart
+    Heart,
+    Package,
 } from "lucide-react";
 import Link from "next/link";
 import { SearchForm } from "@/components/search-form";
 import { useProductStore } from "@/hooks/use-product-store";
 import { usePathname } from "next/navigation";
-
 
 export default function ClientLayout({ children }: { children: React.ReactNode }) {
     const path = usePathname();
@@ -25,7 +29,17 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
     const setSearch = useProductStore((s) => s.setSearch);
     const isMobile = useIsMobile();
 
-    // Evita o flash de layout errado antes da detecção
+    const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+
+    const items = [
+        { title: "Electronics", url: "/products/category/electronics" },
+        { title: "Fashion", url: "/products/category/fashion" },
+        { title: "Home & Kitchen", url: "/products/category/home-kitchen" },
+        { title: "Beauty & Health", url: "/products/category/beauty-health" },
+        { title: "Sports", url: "/products/category/sports" },
+        { title: "Books", url: "/products/category/books" },
+    ];
+
     if (isMobile === undefined) return null;
 
     return (
@@ -43,25 +57,55 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
             ) : (
                 <div className="flex flex-col min-h-[100dvh]">
                     <main className="flex-1 pb-16">
-                        {
-                            path === "/" ? (
-                                <header className="p-2 flex flex-col gap-3">
-                                    <div className="flex items-center justify-between">
-                                        <Image src={"/logo-onlineStore (2).svg"} width={64} height={64} alt="logo" className="w-40" />
-
-                                        <div className="bg-gray-300 w-10 h-10 rounded-full"></div>
-                                    </div>
-                                    <div>
-                                        <SearchForm search={search} setSearch={setSearch} />
-                                    </div>
-                                </header>
-                            ): null
-                       }
+                        {path === "/" && (
+                            <header className="p-2 flex flex-col gap-3">
+                                <div className="flex items-center justify-between">
+                                    <Image
+                                        src={"/logo-onlineStore (2).svg"}
+                                        width={64}
+                                        height={64}
+                                        alt="logo"
+                                        className="w-40"
+                                    />
+                                    <div className="bg-gray-300 w-10 h-10 rounded-full"></div>
+                                </div>
+                                <SearchForm search={search} setSearch={setSearch} />
+                            </header>
+                        )}
                         {children}
                     </main>
                     <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t shadow-md">
                         <ul className="flex justify-around items-center py-2 text-sm">
                             <NavItem href="/" label="Home" icon={<Home size={20} />} />
+
+                            <Popover
+                                open={isPopoverOpen}
+                                onOpenChange={setIsPopoverOpen}
+                            >
+                                <PopoverTrigger className="flex flex-col items-center text-gray-700 hover:text-black text-xs mt-1">
+                                    <Package size={20} />
+                                    <span>Category</span>
+                                </PopoverTrigger>
+                                <PopoverContent className="flex flex-col gap-2">
+                                    {items.map((i) => {
+                                        const isActive = path === i.url;
+                                        return (
+                                            <Link
+                                                key={i.url}
+                                                href={i.url}
+                                                className={`px-2 py-1 rounded ${isActive
+                                                        ? "bg-online-secundary text-white font-medium"
+                                                        : "text-gray-700 hover:bg-gray-100 hover:text-black"
+                                                    }`}
+                                                onClick={() => setIsPopoverOpen(false)}
+                                            >
+                                                {i.title}
+                                            </Link>
+                                        );
+                                    })}
+                                </PopoverContent>
+                            </Popover>
+
                             <NavItem href="/favorites" label="Favorites" icon={<Heart size={20} />} />
                             <NavItem href="/cart" label="Cart" icon={<ShoppingCart size={20} />} />
                             <NavItem href="/profile" label="Profile" icon={<User size={20} />} />
@@ -73,11 +117,21 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
     );
 }
 
-
-function NavItem({ href, label, icon }: { href: string; label: string; icon: React.ReactNode }) {
+function NavItem({
+    href,
+    label,
+    icon,
+}: {
+    href: string;
+    label: string;
+    icon: React.ReactNode;
+}) {
     return (
         <li>
-            <Link href={href} className="flex flex-col items-center text-gray-700 hover:text-black">
+            <Link
+                href={href}
+                className="flex flex-col items-center text-gray-700 hover:text-black"
+            >
                 {icon}
                 <span className="text-xs mt-1">{label}</span>
             </Link>

@@ -1,5 +1,7 @@
 "use client"
 import { ChevronRight, type LucideIcon } from "lucide-react"
+import { usePathname } from "next/navigation"
+import Link from "next/link"
 import {
     Collapsible,
     CollapsibleContent,
@@ -30,13 +32,14 @@ export function NavMain({
         }[]
     }[]
 }) {
+    const pathname = usePathname()
+
     return (
         <SidebarGroup>
             <SidebarGroupLabel>Platform</SidebarGroupLabel>
             <SidebarMenu>
                 {items.map((item, index) =>
                     index === 1 ? (
-                        // Apenas o segundo item com submenu
                         <Collapsible
                             key={item.title}
                             asChild
@@ -45,7 +48,14 @@ export function NavMain({
                         >
                             <SidebarMenuItem>
                                 <CollapsibleTrigger asChild>
-                                    <SidebarMenuButton tooltip={item.title}>
+                                    <SidebarMenuButton
+                                        tooltip={item.title}
+                                        className={
+                                            pathname === item.url
+                                                ? "bg-accent text-accent-foreground"
+                                                : ""
+                                        }
+                                    >
                                         {item.icon && <item.icon />}
                                         <span>{item.title}</span>
                                         <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
@@ -55,10 +65,17 @@ export function NavMain({
                                     <SidebarMenuSub>
                                         {item.items?.map((subItem) => (
                                             <SidebarMenuSubItem key={subItem.title}>
-                                                <SidebarMenuSubButton asChild>
-                                                    <a href={subItem.url}>
+                                                <SidebarMenuSubButton
+                                                    asChild
+                                                    className={
+                                                        pathname === subItem.url
+                                                            ? "bg-accent text-accent-foreground"
+                                                            : ""
+                                                    }
+                                                >
+                                                    <Link href={subItem.url}>
                                                         <span>{subItem.title}</span>
-                                                    </a>
+                                                    </Link>
                                                 </SidebarMenuSubButton>
                                             </SidebarMenuSubItem>
                                         ))}
@@ -67,13 +84,20 @@ export function NavMain({
                             </SidebarMenuItem>
                         </Collapsible>
                     ) : (
-                        // Todos os outros como botão simples
                         <SidebarMenuItem key={item.title}>
-                            <SidebarMenuButton tooltip={item.title} asChild>
-                                <a href={item.url} className="flex items-center gap-2">
+                            <SidebarMenuButton
+                                tooltip={item.title}
+                                asChild
+                                className={
+                                    pathname === item.url
+                                        ? "bg-accent text-accent-foreground"
+                                        : ""
+                                }
+                            >
+                                <Link href={item.url} className="flex items-center gap-2">
                                     {item.icon && <item.icon />}
                                     <span>{item.title}</span>
-                                </a>
+                                </Link>
                             </SidebarMenuButton>
                         </SidebarMenuItem>
                     )

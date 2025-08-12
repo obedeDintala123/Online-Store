@@ -5,9 +5,9 @@ export async function GET(
   _req: Request,
   { params }: { params: { slug: string } }
 ) {
-  // slug vem como: "glass-bloom-perfume-bottle-36"
+
   const parts = params.slug.split("-");
-  const id = Number(parts[parts.length - 1]); // pega o último elemento
+  const id = Number(parts[parts.length - 1]); 
 
   if (isNaN(id)) {
     return NextResponse.json({ error: "ID inválido" }, { status: 400 });

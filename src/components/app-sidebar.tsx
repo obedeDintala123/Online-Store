@@ -20,6 +20,7 @@ import {
     SidebarHeader,
     SidebarRail,
 } from "@/components/ui/sidebar"
+import Link from "next/link"
 // This is sample data.
 const data = {
     user: {
@@ -43,28 +44,29 @@ const data = {
             items: [
                 {
                     title: "Electronics",
-                    url: "#",
+                    url: "/products/category/electronics",
                 },
                 {
                     title: "Fashion",
-                    url: "#",
+                    url: "/products/category/fashion",
                 },
                 {
                     title: "Home & Kitchen",
-                    url: "#",
+                    url: "/products/category/home-kitchen",
                 },
                 {
                     title: "Beauty & Health",
-                    url: "#",
+                    url: "/products/category/beauty-health",
                 },
                 {
                     title: "Sports",
-                    url: "#",
+                    url: "/products/category/sports",
                 },
                 {
                     title: "Books",
-                    url: "#",
+                    url: "/products/category/books",
                 },
+
             ],
         },
 
@@ -106,15 +108,15 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             {...props}
         >
             <SidebarHeader>
-                <a href="/" className="p-4">
+                <Link href="/" className="p-4">
                     <Image
-                        src="/logo-onlineStore (2).svg"
+                        src="/logo-onlineStore.svg"
                         alt="favicon"
                         width={180}
                         height={50}
                         sizes="100vw"
                     />
-                </a>
+                </Link>
             </SidebarHeader>
             <SidebarContent>
                 <NavMain items={data.navMain} />

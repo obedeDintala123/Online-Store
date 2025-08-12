@@ -1,6 +1,6 @@
-import { create } from "zustand"; 
+import { create } from "zustand";
 import { apiRequest } from "@/lib/api";
-import { Product } from "@/app/products/page"; 
+import { Product } from "@/app/products/page";
 
 type State = {
   allProducts: Product[];
@@ -11,6 +11,7 @@ type State = {
   fetchProducts: () => Promise<void>;
   setSearch: (value: string) => void;
   setProducts: (p: Product[]) => void;
+  filterByCategory: (category: string) => void;
 };
 
 export const useProductStore = create<State>((set, get) => ({
@@ -19,6 +20,7 @@ export const useProductStore = create<State>((set, get) => ({
   search: "",
   isLoading: false,
   error: null,
+
   fetchProducts: async () => {
     set({ isLoading: true, error: null });
     try {
@@ -30,6 +32,7 @@ export const useProductStore = create<State>((set, get) => ({
       set({ isLoading: false });
     }
   },
+
   setSearch: (value: string) => {
     const term = value.trim().toLowerCase();
     const { allProducts } = get();
@@ -37,10 +40,34 @@ export const useProductStore = create<State>((set, get) => ({
       set({ search: value, products: allProducts });
       return;
     }
-    const filtered = allProducts.filter((p) =>
-      p.name.toLowerCase().includes(term) || p.slug.toLocaleLowerCase().includes(term)
+    const filtered = allProducts.filter(
+      (p) =>
+        p.name.toLowerCase().includes(term) ||
+        p.slug.toLowerCase().includes(term) ||
+        p.description?.toLowerCase().includes(term) ||
+        p.category?.toLowerCase().includes(term)
     );
     set({ search: value, products: filtered });
   },
+
   setProducts: (p: Product[]) => set({ products: p }),
+
+filterByCategory: async (category: string) => {
+  set({ isLoading: true, error: null });
+  try {
+    if (!category) {
+      await get().fetchProducts();
+      return;
+    }
+
+    const data = await apiRequest(`products/category/${category}`, "GET");
+    set({ products: data });
+  } catch (err: any) {
+    set({ error: err?.message ?? "Erro ao filtrar produtos" });
+  } finally {
+    set({ isLoading: false });
+  }
+},
+
+
 }));

@@ -13,6 +13,8 @@ export type Product = {
     imageUrl: string;
     price: string;
     slug: string;
+    description?: string;
+    category?: string;
 }
 
 export default function AllProductsPage() {

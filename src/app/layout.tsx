@@ -1,4 +1,3 @@
-// app/layout.tsx
 import { Montserrat } from "next/font/google";
 import type { Metadata } from "next";
 import ClientLayout from "./client-layout";

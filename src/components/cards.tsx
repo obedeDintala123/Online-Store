@@ -13,6 +13,8 @@ interface CardProps {
     alt: string
     slug?: string;
     price?: string
+    description?: string;
+    category?: string;
     className?: string
     productId: number;
 }
@@ -58,6 +60,7 @@ export const Card = ({
                 <div className="flex gap-1 items-center">
                     {/* Botão de Curtir */}
                     <button
+                        title="like"
                         type="button"
                         className="p-2 rounded-md cursor-pointer transition-colors"
                         onClick={() => setLiked(!liked)}
@@ -65,12 +68,13 @@ export const Card = ({
                         <Heart
                             size={isMobile ? 16 : 24}
                             className="transition-colors"
-                            fill={liked ? "#f9595f" : "none"} 
-                            color={liked ? "#f9595f" : "currentColor"} 
+                            fill={liked ? "#f9595f" : "none"}
+                            color={liked ? "#f9595f" : "currentColor"}
                         />
                     </button>
 
                     <button
+                        title="cart"
                         type="button"
                         className="p-2 rounded-md cursor-pointer transition-colors"
                         onClick={() => setInCart(!inCart)}
@@ -84,7 +88,7 @@ export const Card = ({
                     </button>
                 </div>
 
-                <button type="button">
+                <button type="button" title="options">
                     <Ellipsis size={16} />
                 </button>
             </div>
@@ -101,6 +105,7 @@ export const Card = ({
 
                     <div className="flex gap-2 sm:gap-4 md:gap-6">
                         <button
+                            title="like"
                             type="button"
                             onClick={(e) => e.stopPropagation()}
                             className="p-2 hover:bg-black/40 rounded-md cursor-pointer"
@@ -109,6 +114,7 @@ export const Card = ({
 
                         </button>
                         <button
+                            title="cart"
                             type="button"
                             onClick={(e) => e.stopPropagation()}
                             className="p-2 hover:bg-black/40 rounded-md cursor-pointer"
