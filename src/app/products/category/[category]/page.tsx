@@ -40,7 +40,7 @@ export default function CategoryPage() {
         <div className="flex flex-1 flex-col gap-4 p-2 md:p-4">
             {
                 products.length > 0 ? (
-                    <div className="columns-2 sm:columns-2 md:columns-3 lg:columns-3 gap-4 space-y-4">
+                    <div className="columns-2 sm:columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
                         {products.map((item) => (
                             <Card
                                 key={item.id}

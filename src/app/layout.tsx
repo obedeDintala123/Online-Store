@@ -2,6 +2,7 @@ import { Montserrat } from "next/font/google";
 import type { Metadata } from "next";
 import ClientLayout from "./client-layout";
 import "./globals.css";
+import { Toaster } from "@/components/ui/sonner"
 
 const montserrat = Montserrat({
   display: "swap",
@@ -67,6 +68,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${montserrat.className} antialiased`}>
         <ClientLayout>{children}</ClientLayout>
+        <Toaster />
       </body>
     </html>
   );

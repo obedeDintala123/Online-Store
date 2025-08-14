@@ -31,6 +31,10 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
 
     const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
+    if (path.startsWith("/login")) {
+        return <>{children}</>;
+    }
+
     const items = [
         { title: "Electronics", url: "/products/category/electronics" },
         { title: "Fashion", url: "/products/category/fashion" },
@@ -94,8 +98,8 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
                                                 key={i.url}
                                                 href={i.url}
                                                 className={`px-2 py-1 rounded ${isActive
-                                                        ? "bg-online-secundary text-white font-medium"
-                                                        : "text-gray-700 hover:bg-gray-100 hover:text-black"
+                                                    ? "bg-online-secundary text-white font-medium"
+                                                    : "text-gray-700 hover:bg-gray-100 hover:text-black"
                                                     }`}
                                                 onClick={() => setIsPopoverOpen(false)}
                                             >
