@@ -5,11 +5,13 @@ import Image from "next/image"
 import { Heart, ShoppingCart, Ellipsis } from "lucide-react"
 import { useIsMobile } from "@/hooks/use-mobile"
 import { useRouter } from "next/navigation"
-import { useRef, useState, useEffect } from "react"
+import { useRef, useState, useEffect, startTransition } from "react"
 import { Button } from "./ui/button"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Share2, Download } from "lucide-react"
 import { Separator } from "./ui/separator"
+import { toast } from "sonner"
+import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter } from "./ui/alert-dialog"
 
 interface CardProps {
     name: string
@@ -36,24 +38,34 @@ export const Card = ({
     const isMobile = useIsMobile()
     const router = useRouter()
     const [liked, setLiked] = useState(false);
-    const [inCart, setInCart] = useState(false);
     const imgRef = useRef<HTMLImageElement | null>(null);
+    const [showLoginDialog, setShowLoginDialog] = useState(false);
 
     const openProductView = (id: number) => {
         router.push(`/products/${slug}-${id}`)
     }
 
+    const buyProduct = (id: number) => {
+        const token = localStorage.getItem("token")
+
+        if (!token) {
+            setShowLoginDialog(true)
+            return
+        }
+
+        if (!slug) return
+
+        router.push(`/products/checkout/${slug}-${id}`)
+    }
 
     const likeProduct = (id: number) => {
         const currentLikes: number[] = JSON.parse(localStorage.getItem("likedProducts") || "[]");
 
         let updatedLikes;
         if (currentLikes.includes(id)) {
-            // Remove o like
             updatedLikes = currentLikes.filter(pid => pid !== id);
             setLiked(false);
         } else {
-            // Adiciona o like
             updatedLikes = [...currentLikes, id];
             setLiked(true);
         }
@@ -61,16 +73,13 @@ export const Card = ({
         localStorage.setItem("likedProducts", JSON.stringify(updatedLikes));
     };
 
-    // Ao montar o componente, verifica se já está curtido
     useEffect(() => {
         const currentLikes: number[] = JSON.parse(localStorage.getItem("likedProducts") || "[]");
         setLiked(currentLikes.includes(productId));
     }, [productId]);
 
-    // ---- NOVO: função de download confiável
     const handleDownload = async () => {
         try {
-            // Usa a URL otimizada do Next (same-origin) se existir
             const optimizedSrc =
                 imgRef.current?.currentSrc || imgRef.current?.src || src
 
@@ -187,12 +196,39 @@ export const Card = ({
                 </div>
 
                 <div className="grid grid-cols-3 md:grid-cols-6 gap-2">
-                    <Button className="bg-online-primary cursor-pointer text-white col-span-2 md:col-span-5 text-xs md:text-sm" >Buy Now</Button>
+                    <Button className="bg-online-primary cursor-pointer text-white col-span-2 md:col-span-5 text-xs md:text-sm" onClick={() => buyProduct(productId)}>Buy Now</Button>
                     <Button className="border cursor-pointer border-online-secundary col-span-1">
                         <ShoppingCart className="text-online-secundary" size={isMobile ? 16 : 24} />
                     </Button>
                 </div>
             </div>
+
+            <AlertDialog open={showLoginDialog} onOpenChange={setShowLoginDialog}>
+                <AlertDialogContent>
+                    <AlertDialogHeader>
+                        <AlertDialogTitle>Login Required</AlertDialogTitle>
+                        <AlertDialogDescription>
+                            You need to be logged in to purchase this product.
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                        <Button
+                            onClick={() => setShowLoginDialog(false)}
+                            className="text-online-secundary border border-online-secundary cursor-pointer">Cancel</Button>
+                        <Button
+                            onClick={() => {
+                                setShowLoginDialog(false)
+                                router.push("/login")
+                            }}
+                            className="text-white bg-online-primary cursor-pointer"
+                        >
+                            Continue
+                        </Button>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
+
+
         </div>
     )
 }

@@ -39,14 +39,14 @@ export async function POST(req: NextRequest) {
     }
 
     const token = jwt.sign(
-      { id: user.id, email: user.email },
+      { id: user.id, email: user.email, name: user.name },
       process.env.JWT_SECRET as Secret,
-      { expiresIn: "1m" }
+      { expiresIn: "1h" }
     );
 
     return NextResponse.json({
       message: "Login bem-sucedido",
-      user: { id: user.id, email: user.email },
+      user: { id: user.id, name: user.name, email: user.email },
       token
     });
   } catch (err) {

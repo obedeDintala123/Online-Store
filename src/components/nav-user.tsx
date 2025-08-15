@@ -1,4 +1,5 @@
 "use client"
+import { useEffect, useState } from "react"
 import {
     BadgeCheck,
     Bell,
@@ -27,16 +28,27 @@ import {
     SidebarMenuItem,
     useSidebar,
 } from "@/components/ui/sidebar"
-export function NavUser({
-    user,
-}: {
-    user: {
-        name: string
-        email: string
-        avatar: string
-    }
-}) {
+
+type User = {
+    name: string
+    email: string
+    avatar: string
+}
+
+export function NavUser() {
     const { isMobile } = useSidebar()
+    const [user, setUser] = useState<User | null>(null)
+
+    useEffect(() => {
+        const token = localStorage.getItem("token")
+        const storedUser = localStorage.getItem("user")
+        if (token && storedUser) {
+            setUser(JSON.parse(storedUser))
+        }
+    }, [])
+
+    if (!user) return null // ou algum fallback/loading
+
     return (
         <SidebarMenu>
             <SidebarMenuItem>

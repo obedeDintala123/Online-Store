@@ -4,11 +4,12 @@ import { z } from "zod";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
-import { Eye, Loader2 } from "lucide-react";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import useAuth from "@/hooks/use-auth"
+import { useState } from "react";
 
 export const loginSchema = z.object({
     email: z
@@ -29,6 +30,7 @@ export const LoginForm = () => {
     });
 
     const { login, loading, error } = useAuth();
+    const [showPassword, setShowPassword] = useState(false);
 
     const onSubmit = async (data: LoginSchema) => {
         login(data);
@@ -37,7 +39,7 @@ export const LoginForm = () => {
     const router = useRouter();
 
     return (
-        <div className="space-y-8 w-full md:w-[80%] text-online-secundary">
+        <div className="space-y-8 w-[90%] sm:w-[80%] text-online-secundary">
 
             <div className="flex justify-center items-center">
                 <Image src={"/logo-onlineStore (2).svg"} width={64} height={64} alt="logo" className="w-50 text-center" />
@@ -57,8 +59,15 @@ export const LoginForm = () => {
                 <div className="space-y-2">
                     <label htmlFor="" className="font-medium">Password</label>
                     <div className="relative">
-                        <Input type="password" {...register("password")} className="px-2" />
-                        <Eye size={20} className="absolute top-1/2 -translate-y-1/2 right-1 text-gray-500" />
+                        <Input type={showPassword ? "text" : "password"} {...register("password")} className="px-2" />
+                        {
+                            showPassword ? (
+                                <Eye size={16} className="absolute top-1/2 -translate-y-1/2 right-2 text-gray-500" onClick={() => setShowPassword(!showPassword)} />
+                            ) : (
+                                <EyeOff size={16} className="absolute top-1/2 -translate-y-1/2 right-2 text-gray-500"
+                                    onClick={() => setShowPassword(!showPassword)} />
+                            )
+                        }
                     </div>
                     {errors.password?.message && <span className="text-sm text-red-400">{errors.password.message}</span>}
                 </div>
@@ -67,7 +76,7 @@ export const LoginForm = () => {
             </form>
 
             <div className="flex items-center justify-center">
-                <Link href={"/register"} className="text-sm text-center">Não tem uma conta? <span className="text-online-primary">Criar conta</span></Link>
+                <Link href={"/register"} className="text-sm text-center">Don't have an account? <span className="text-online-primary">Sign up</span></Link>
             </div>
         </div>
     );

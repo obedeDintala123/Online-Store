@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
     Popover,
     PopoverContent,
@@ -22,16 +23,30 @@ import Link from "next/link";
 import { SearchForm } from "@/components/search-form";
 import { useProductStore } from "@/hooks/use-product-store";
 import { usePathname } from "next/navigation";
+import useAuth from "@/hooks/use-auth";
 
 export default function ClientLayout({ children }: { children: React.ReactNode }) {
     const path = usePathname();
     const search = useProductStore((s) => s.search);
     const setSearch = useProductStore((s) => s.setSearch);
     const isMobile = useIsMobile();
+    const [user, setUser] = useState<{ name: string } | null>(null);
+
+    useEffect(() => {
+        const storedUser = localStorage.getItem("user");
+        if (storedUser) {
+            try {
+                setUser(JSON.parse(storedUser));
+            } catch (error) {
+                console.error("Erro ao parsear usuário do localStorage", error);
+                setUser(null);
+            }
+        }
+    }, []);
 
     const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
-    if (path.startsWith("/login")) {
+    if (path.startsWith("/login") || path.startsWith("/register")) {
         return <>{children}</>;
     }
 
@@ -71,7 +86,11 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
                                         alt="logo"
                                         className="w-40"
                                     />
-                                    <div className="bg-gray-300 w-10 h-10 rounded-full"></div>
+                                    <Avatar>
+                                        <AvatarFallback className="bg-online-primary border border-online-secundary text-white font-semibold">
+                                            {user?.name.charAt(0)}
+                                        </AvatarFallback>
+                                    </Avatar>
                                 </div>
                                 <SearchForm search={search} setSearch={setSearch} />
                             </header>
