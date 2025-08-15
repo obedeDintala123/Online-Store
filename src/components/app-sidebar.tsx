@@ -20,14 +20,11 @@ import {
     SidebarHeader,
     SidebarRail,
 } from "@/components/ui/sidebar"
+import { useState, useEffect } from "react"
 import Link from "next/link"
+import { User } from "@/hooks/use-auth"
 // This is sample data.
 const data = {
-    user: {
-        name: "shadcn",
-        email: "m@example.com",
-        avatar: "/avatars/shadcn.jpg",
-    },
 
     navMain: [
         {
@@ -102,6 +99,17 @@ const data = {
 
 }
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+    const [user, setUser] = useState<User | null>(null)
+
+    useEffect(() => {
+        const token = localStorage.getItem("token")
+        const storedUser = localStorage.getItem("user")
+        if (token && storedUser) {
+            setUser(JSON.parse(storedUser))
+        }
+    }, [])
+
+    if (!user) return null // ou algum fallback/loading
     return (
         <Sidebar
             className="top-[calc(var(--header-height)*1.5)] h-[calc(100svh-var(--header-height)*1.5)]!"
@@ -123,7 +131,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 <NavSellers sellers={data.sellers} />
             </SidebarContent>
             <SidebarFooter>
-                <NavUser user={data.user} />
+                <NavUser user={user} />
             </SidebarFooter>
             <SidebarRail />
         </Sidebar>

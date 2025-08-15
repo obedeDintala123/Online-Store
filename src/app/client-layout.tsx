@@ -77,7 +77,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
                 <div className="flex flex-col min-h-[100dvh]">
                     <main className="flex-1 pb-16">
                         {path === "/" && (
-                            <header className="p-2 flex flex-col gap-3">
+                            <header className="px-4 py-6 flex flex-col gap-3">
                                 <div className="flex items-center justify-between">
                                     <Image
                                         src={"/logo-onlineStore (2).svg"}
